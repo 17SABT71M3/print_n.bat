@@ -3,7 +3,7 @@ set handle=%~1
 set number=%~2
 set file=%3
 if exist %file%      goto checkhandle
-echo:Check: Invalid File!
+echo File Not Found >&2
 goto :eof
 :checkhandle
 if "%handle%" NEQ "" goto continue
@@ -27,4 +27,6 @@ goto :eof
 :checkstringnumber
 echo:%number%|findstr /r "^[0-9]*$" >NUL&&echo.>NUL || goto printhelpmenu
 if %number% LSS 0 Echo:Number must be greater than 0&goto :eof
-if %number% GTR 0 findstr /r /n "^.*$" %file% | findstr /r "^%number%:"
+if %number% GTR 0 findstr /r /n "^.*$" %file% | findstr /r "^%number%:"&&goto :end
+echo Line Not Found >&2
+:end
